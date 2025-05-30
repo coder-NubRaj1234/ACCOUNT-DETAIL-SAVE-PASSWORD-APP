@@ -137,7 +137,7 @@ const Manager = () => {
 
   return (
     <>
-      <section className="text-white h-[] relative py-10">
+      <section className="text-white h-[82vh] relative py-10">
         <div class="absolute top-0 z-[-2] h-[100%] w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]"></div>
 
         <div className=" container box-border  w-[95%] mt-2.5 m-auto  ">
