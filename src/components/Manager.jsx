@@ -23,7 +23,12 @@ const Manager = () => {
   const [data, setData] = useState([]);
   const [eyeIcon, setEyeIcon] = useState(faEye);
 
+
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+ 
+  
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -62,10 +67,7 @@ const Manager = () => {
       });
       setBtnVal("Add");
 
-      setEditBtn(true);
-      setTimeout(() => {
-        console.log("add btn click", editBtn);
-      }, 1000);
+     
 
       toast(`✅   ${message} your account !`, {
         position: "top-right",
@@ -112,7 +114,10 @@ const Manager = () => {
       theme: "dark",
     });
   };
+  
+
   const editAccount = (id) => {
+  
     setMessage("Edit");
     setEditBtn(false);
     setBtnVal("Edit");
