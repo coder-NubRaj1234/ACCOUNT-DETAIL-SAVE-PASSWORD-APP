@@ -61,8 +61,7 @@ const Manager = () => {
         progress: undefined,
         theme: "dark",
       });
-    }else{
-
+    } else {
       toast("🦄 Fill all input feailds !", {
         position: "top-right",
         autoClose: 5000,
@@ -74,7 +73,7 @@ const Manager = () => {
         theme: "dark",
       });
     }
-    };
+  };
 
   const deletAccount = (id) => {
     console.log("This is delet item id", id);
@@ -246,19 +245,22 @@ const Manager = () => {
                 </h2>
                 <div className="container">
                   <table className="w-full  items-stretch">
-                    <thead className="border border-2">
-                      <tr className="text-center py-4 border-1 ">
-                        <th className="pl-2">Site</th>
-                        <th className="pl-2">Account Name</th>
-                        <th className="pl-2">Password</th>
-                        <th className="pl-2">Action</th>
+                    <thead className="border border-2 ">
+                      <tr className="text-center border-1 ">
+                        <th className="pl-2 py-4">Site</th>
+                        <th className="pl-2 py-4 ">Account Name</th>
+                        <th className="pl-2 py-4 ">Password</th>
+                        <th className="pl-2 py-4 ">Action</th>
                       </tr>
                     </thead>
 
                     <tbody className=" border-collapse">
                       {data.map((item, index) => {
                         return (
-                          <tr key={index} className="text-center border border-2">
+                          <tr
+                            key={index}
+                            className="text-center border border-2"
+                          >
                             <td className="py-2 flex flex-col gap-5 ">
                               <a href={item.siteName} target="_blank">
                                 {item.siteName}
