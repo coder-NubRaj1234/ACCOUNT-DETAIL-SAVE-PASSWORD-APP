@@ -158,7 +158,7 @@ const Manager = () => {
                 htmlFor="siteName"
                 className="px-1 my-2 block font-semibold"
               >
-                Application Name:
+                Application Addresh:
               </label>
               <input
                 value={form.siteName}
@@ -166,7 +166,7 @@ const Manager = () => {
                 id="siteName"
                 name="siteName"
                 placeholder="Enter your application name"
-                className=" border border-2  border-green-600 w-full rounded-xl px-3.5 text-lg focus:outline-1 outline-green-600 py-0.5"
+                className=" border border-2  border-green-600 w-full rounded-xl px-3.5 text-lg focus:outline-1 outline-green-600 py-1"
                 onChange={(e) => saveAccount(e)}
               />
             </div>
@@ -184,7 +184,7 @@ const Manager = () => {
                 id="userName"
                 name="userName"
                 placeholder="Enter your account name"
-                className=" border border-2  border-green-600  rounded-xl px-3.5 text-lg focus:outline-1 outline-green-600 py-0.5"
+                className=" border border-2  border-green-600  rounded-xl px-3.5 text-lg focus:outline-1 outline-green-600 py-1"
                 onChange={(e) => saveAccount(e)}
               />
               <label
@@ -200,7 +200,7 @@ const Manager = () => {
                   id="password"
                   name="password"
                   placeholder="Enter your account password"
-                  className=" border border-2  border-green-600  rounded-xl px-3.5 text-lg focus:outline-1 outline-green-600 py-0.5 w-full"
+                  className=" border border-2  border-green-600  rounded-xl px-3.5 text-lg focus:outline-1 outline-green-600 py-1 w-full"
                   onChange={(e) => saveAccount(e)}
                 />
                 <FontAwesomeIcon
@@ -246,8 +246,8 @@ const Manager = () => {
                 </h2>
                 <div className="container">
                   <table className="w-full  items-stretch">
-                    <thead className="border">
-                      <tr className="text-center py-4  ">
+                    <thead className="border border-2">
+                      <tr className="text-center py-4 border-1 ">
                         <th className="pl-2">Site</th>
                         <th className="pl-2">Account Name</th>
                         <th className="pl-2">Password</th>
