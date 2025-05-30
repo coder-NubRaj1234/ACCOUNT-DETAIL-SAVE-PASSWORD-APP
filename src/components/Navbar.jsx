@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className="h-[8vh] bg-slate-900 text-white flex items-center text-xl font-bold justify-between px-5">
+    <nav className="h-[8vh] bg-slate-900 text-white flex items-center text-xl font-bold justify-between px-5  lg:px-40">
       <div className="right ">
         <span className="text-green-700">&lt;</span>
         <span>Pass</span>
@@ -10,9 +10,7 @@ const Navbar = () => {
       </div>
 
       <div className="left">
-        <button
-        className="bg-green-700 flex justify-around items-center rounded-full px-2 border border-white border-2"
-        >
+        <button className="bg-green-700 flex justify-around items-center rounded-full px-2 border border-white border-2">
           <lord-icon
             src="https://cdn.lordicon.com/jjxzcivr.json"
             trigger="hover"

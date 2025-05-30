@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,10 +7,13 @@ import { ToastContainer, toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 
 import { useState, useEffect, useRef } from "react";
+import { icon } from "@fortawesome/fontawesome-svg-core";
 
 const Manager = () => {
   const [btnVAl, setBtnVal] = useState("Add");
   const [editBtn, setEditBtn] = useState(true);
+  const [dataPassShow, setDataPassShow] = useState(faEye);
+  const [message, setMessage] = useState("Save");
 
   const [form, setForm] = useState({
     siteName: "",
@@ -19,6 +22,19 @@ const Manager = () => {
   });
   const [data, setData] = useState([]);
   const [eyeIcon, setEyeIcon] = useState(faEye);
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    // Cleanup on unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    console.log(windowWidth); // This will log every time window width changes
+  }, [windowWidth]);
 
   //here i load data from localStorage...
 
@@ -51,7 +67,7 @@ const Manager = () => {
         console.log("add btn click", editBtn);
       }, 1000);
 
-      toast("🦄 Save your account !", {
+      toast(`✅   ${message} your account !`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -61,8 +77,9 @@ const Manager = () => {
         progress: undefined,
         theme: "dark",
       });
+      setMessage("Save")
     } else {
-      toast("🦄 Fill all input feailds !", {
+      toast("🚨 Fill all input fields !", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -84,7 +101,7 @@ const Manager = () => {
       JSON.stringify(data.filter((item) => item.id !== id))
     );
 
-    toast("🦄 Delete  your account !", {
+    toast("❌  Deleted  your account !", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -96,6 +113,7 @@ const Manager = () => {
     });
   };
   const editAccount = (id) => {
+    setMessage("Edit");
     setEditBtn(false);
     setBtnVal("Edit");
     const item = data.filter((i) => {
@@ -119,9 +137,10 @@ const Manager = () => {
     }
   };
 
+
   //here the data will copy it's icons..
   const copyData = (text) => {
-    toast("🦄 Coppied !", {
+    toast("✍️  Coppied !", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -139,7 +158,7 @@ const Manager = () => {
       <section className="text-white min-h-[82vh] relative py-10">
         <div class="absolute top-0 z-[-2] h-[100%] w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]"></div>
 
-        <div className=" container box-border  w-[95%] mt-2.5 m-auto  ">
+        <div className=" container box-border  w-[95%] mt-2.5 m-auto lg:px-40 lg:w-[100%] ">
           <div className="top">
             <h1 className="text-2xl font-bold text-center ">
               <span className="text-green-700">&lt;</span>
@@ -151,7 +170,7 @@ const Manager = () => {
             </h2>
           </div>
 
-          <div className="inputs text-white mt-5">
+          <div className="inputs text-white mt-5 lg:m-auto">
             <div>
               <label
                 htmlFor="siteName"
@@ -170,29 +189,32 @@ const Manager = () => {
               />
             </div>
 
-            <div className="flex flex-col">
-              <label
-                htmlFor="userName"
-                className="px-1 my-2 block font-semibold "
-              >
-                Account Name:
-              </label>
-              <input
-                value={form.userName}
-                type="text"
-                id="userName"
-                name="userName"
-                placeholder="Enter your account name"
-                className=" border border-2  border-green-600  rounded-xl px-3.5 text-lg focus:outline-1 outline-green-600 py-1"
-                onChange={(e) => saveAccount(e)}
-              />
-              <label
-                htmlFor="password"
-                className="px-1 my-2 block font-semibold"
-              >
-                Account Password:
-              </label>
+            <div className="flex flex-col lg:flex-row lg:gap-5">
+              <div className="lg:w-full">
+                <label
+                  htmlFor="userName"
+                  className="px-1 my-2 block font-semibold "
+                >
+                  Account Name:
+                </label>
+                <input
+                  value={form.userName}
+                  type="text"
+                  id="userName"
+                  name="userName"
+                  placeholder="Enter your account name"
+                  className=" border border-2  border-green-600  rounded-xl px-3.5 text-lg focus:outline-1 outline-green-600 py-1 w-full"
+                  onChange={(e) => saveAccount(e)}
+                />
+              </div>
+
               <div className="w-full relative">
+                <label
+                  htmlFor="password"
+                  className="px-1 my-2 block font-semibold"
+                >
+                  Account Password:
+                </label>
                 <input
                   value={form.password}
                   type={eyeIcon == faEye ? "password" : "text"}
@@ -206,7 +228,7 @@ const Manager = () => {
                   onClick={() => {
                     showPassword();
                   }}
-                  className="absolute right-2 top-2.5 cursor-pointer"
+                  className="absolute right-2 top-3 cursor-pointer    transition-all duration-300  hover:scale-110"
                   icon={eyeIcon}
                 />
               </div>
@@ -244,108 +266,237 @@ const Manager = () => {
                   Your Account Details
                 </h2>
                 <div className="container">
-                  <table className="w-full  items-stretch">
-                    <thead className="border border-2 ">
-                      <tr className="text-center border-1 ">
-                        <th className="pl-2 py-4">Site</th>
-                        <th className="pl-2 py-4 ">Account Name</th>
-                        <th className="pl-2 py-4 ">Password</th>
-                        <th className="pl-2 py-4 ">Action</th>
-                      </tr>
-                    </thead>
+                  {windowWidth > 800 && (
+                    <table className="w-full  items-stretch">
+                      <thead className="border  text-lg font-roboto">
+                        <tr className="text-center  ">
+                          <th className="pl-2 py-4 border max-w-[10rem] min-w-[40%] break-words whitespace-normal  ">
+                            Site
+                          </th>
+                          <th className="pl-2 py-4 border max-w-[10rem] min-w-[25%] break-words whitespace-normal">
+                            Account Name
+                          </th>
+                          <th className="pl-2 py-4 border max-w-[10rem] min-w-[25%] break-words whitespace-normal">
+                            Password
+                          </th>
+                          <th className="pl-2 py-4 border break-words whitespace-normal lg:w-fit">
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
 
-                    <tbody className=" border-collapse">
-                      {data.map((item, index) => {
-                        return (
-                          <tr
-                            key={index}
-                            className="text-center border border-2"
-                          >
-                            <td className="py-2 flex flex-col gap-5 ">
-                              <a href={item.siteName} target="_blank">
-                                {item.siteName}
-                              </a>
+                      <tbody className=" border-collapse overflow-clip text-center border border-1">
+                        {data.map((item, index) => {
+                          return (
+                            <>
+                              <tr key={index} className="border ">
+                                <td className="py-2  break-words whitespace-normal break-words border">
+                                  <div className="flex flex-col gap-5">
+                                    <a href={item.siteName} target="_blank" className="underline">
+                                      {item.siteName}
+                                    </a>
 
-                              <FontAwesomeIcon
-                                onClick={() => copyData(item)}
-                                icon={faClone}
-                                className="pl-3 cursor-pointer"
-                              ></FontAwesomeIcon>
-                            </td>
+                                    <FontAwesomeIcon
+                                      onClick={() => copyData(item.siteName)}
+                                      icon={faClone}
+                                      className="cursor-pointer transition-all duration-300  hover:scale-110 w-fit m-auto"
+                                    ></FontAwesomeIcon>
+                                  </div>
+                                </td>
 
-                            <td className="py-2 ">
-                              <div className="flex flex-col gap-5">
-                                <span> {item.userName}</span>
+                                <td className="py-2   break-words whitespace-normal break-words border">
+                                  <div className="flex flex-col gap-5">
+                                    <span className="break-words">
+                                      {item.userName}
+                                    </span>
+                                    <FontAwesomeIcon
+                                      onClick={() => copyData(item.userName)}
+                                      icon={faClone}
+                                      className="pl-3 cursor-pointer pl-3 cursor-pointer transition-all duration-300  hover:scale-110 w-fit m-auto"
+                                    ></FontAwesomeIcon>
+                                  </div>
+                                </td>
+                                <td className="py-2 break-words whitespace-normal border">
+                                  <div className="flex flex-col gap-5 max-w-full ">
+                                    <span className="break-words ">
+                                      {item.password}
+                                    </span>
+                                    <FontAwesomeIcon
+                                      onClick={() => copyData(item.password)}
+                                      icon={faClone}
+                                      className="cursor-pointer transition-all duration-300  hover:scale-110  w-fit m-auto "
+                                    ></FontAwesomeIcon>
+                                  </div>
+                                </td>
+
+                                <td className=" Edit  break-words whitespace-normal break-words border py-2">
+                                  <div className="flex flex-col gap-2 max-fill ">
+                                    <span
+                                      className="cursor-pointer break-words break-words"
+                                      onClick={() => {
+                                        if (editBtn) {
+                                          editAccount(item.id);
+                                          console.log(editBtn);
+                                        } else {
+                                          toast(
+                                            "🚨 Edit first your account !",
+                                            {
+                                              position: "top-right",
+                                              autoClose: 5000,
+                                              hideProgressBar: false,
+                                              closeOnClick: false,
+                                              pauseOnHover: false,
+                                              draggable: true,
+                                              progress: undefined,
+                                              theme: "dark",
+                                            }
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      <lord-icon
+                                        src="https://cdn.lordicon.com/exymduqj.json"
+                                        trigger="in"
+                                        delay="500"
+                                        stroke="bold"
+                                        state="in-dynamic"
+                                        colors="primary:#16c79e,secondary:#16c79e"
+                                        style={{ width: "25px" }}
+                                        className=" transition-all duration-300  hover:scale-110"
+                                      ></lord-icon>
+                                    </span>
+
+                                    <span
+                                      className=" delete cursor-pointer "
+                                      onClick={() => {
+                                        deletAccount(item.id);
+                                      }}
+                                    >
+                                      <lord-icon
+                                        src="https://cdn.lordicon.com/hwjcdycb.json"
+                                        trigger="hover"
+                                        stroke="bold"
+                                        colors="primary:#16c79e,secondary:#16c79e"
+                                        style={{ width: "25px" }}
+                                        className=" transition-all duration-300  hover:scale-110"
+                                      ></lord-icon>
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  )}
+
+                  {windowWidth < 800 &&
+                    data.map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="bg-gradient-to-r from-[#0f172a]  to-[#334155] mx-3 box-shadow flex flex-col gap-2 px-4 py-4 font-semibold font-roboto rounded-lg mb-10"
+                        >
+                          <div className="flex flex-col gap-1">
+                            <p>
+                              Account Addresh:
+                              <span className="pl-5">
+                                {" "}
+                                <FontAwesomeIcon
+                                  onClick={() => copyData(item.siteName)}
+                                  icon={faClone}
+                                  className="cursor-pointer"
+                                ></FontAwesomeIcon>
+                              </span>
+                            </p>
+                            <p className="font-light underline">
+                              <a href={item.siteName}>{item.siteName}</a>
+                            </p>
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <p>
+                              User Name:{" "}
+                              <span className="pl-5">
                                 <FontAwesomeIcon
                                   onClick={() => copyData(item.userName)}
                                   icon={faClone}
-                                  className="pl-3 cursor-pointer"
+                                  className=" cursor-pointer"
                                 ></FontAwesomeIcon>
-                              </div>
-                            </td>
-                            <td className="py-2 ">
-                              <div className="flex flex-col gap-5">
-                                <span> {item.password}</span>
+                              </span>
+                            </p>
+                            <p className="font-light">{item.userName}</p>
+                          </div>
+                          <div className=" relative flex flex-col gap-1">
+                            <p>
+                              Password:
+                              <span className="pl-5">
+                                {" "}
                                 <FontAwesomeIcon
                                   onClick={() => copyData(item.password)}
                                   icon={faClone}
-                                  className="pl-3 cursor-pointer"
+                                  className="cursor-pointer"
                                 ></FontAwesomeIcon>
-                              </div>
-                            </td>
-
-                            <td className=" Edit flex flex-col justify-center items-center  gap-5 ">
-                              <span
-                                onClick={() => {
-                                  if (editBtn) {
-                                    editAccount(item.id);
-                                    console.log(editBtn);
-                                  } else {
-                                    toast("🦄 Edit first your account !", {
-                                      position: "top-right",
-                                      autoClose: 5000,
-                                      hideProgressBar: false,
-                                      closeOnClick: false,
-                                      pauseOnHover: false,
-                                      draggable: true,
-                                      progress: undefined,
-                                      theme: "dark",
-                                    });
-                                  }
-                                }}
-                                className="cursor-pointer"
-                              >
-                                <lord-icon
-                                  src="https://cdn.lordicon.com/exymduqj.json"
-                                  trigger="in"
-                                  delay="500"
-                                  stroke="bold"
-                                  state="in-dynamic"
-                                  colors="primary:#16c79e,secondary:#16c79e"
-                                  style={{ width: "25px" }}
-                                ></lord-icon>
                               </span>
+                            </p>
+                            <input
+                              readOnly
+                              type="text"
+                              value={item.password}
+                              className="w-fit outline-none border-none  pointer-events-none bg-transparent  font-roboto font-medium"
+                            />
+                          </div>
 
-                              <span
-                                onClick={() => {
-                                  deletAccount(item.id);
-                                }}
-                                className=" delete cursor-pointer"
-                              >
-                                <lord-icon
-                                  src="https://cdn.lordicon.com/hwjcdycb.json"
-                                  trigger="hover"
-                                  stroke="bold"
-                                  colors="primary:#16c79e,secondary:#16c79e"
-                                  style={{ width: "25px" }}
-                                ></lord-icon>
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                          <div className="flex  gap-10 justify-end items-center">
+                            <span
+                              className="cursor-pointer break-words break-words"
+                              onClick={() => {
+                                if (editBtn) {
+                                  editAccount(item.id);
+                                  console.log(editBtn);
+                                } else {
+                                  toast("🚨 Edit first your account !", {
+                                    position: "top-right",
+                                    autoClose: 5000,
+                                    hideProgressBar: false,
+                                    closeOnClick: false,
+                                    pauseOnHover: false,
+                                    draggable: true,
+                                    progress: undefined,
+                                    theme: "dark",
+                                  });
+                                }
+                              }}
+                            >
+                              <lord-icon
+                                src="https://cdn.lordicon.com/exymduqj.json"
+                                trigger="in"
+                                delay="500"
+                                stroke="bold"
+                                state="in-dynamic"
+                                colors="primary:#16c79e,secondary:#16c79e"
+                                style={{ width: "25px" }}
+                              ></lord-icon>
+                            </span>
+
+                            <span
+                              className=" delete cursor-pointer "
+                              onClick={() => {
+                                deletAccount(item.id);
+                              }}
+                            >
+                              <lord-icon
+                                src="https://cdn.lordicon.com/hwjcdycb.json"
+                                trigger="hover"
+                                stroke="bold"
+                                colors="primary:#16c79e,secondary:#16c79e"
+                                style={{ width: "25px" }}
+                              ></lord-icon>
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
                 </div>
               </>
             )}
