@@ -137,7 +137,7 @@ const Manager = () => {
 
   return (
     <>
-      <section className="text-white h-[82vh] relative py-10">
+      <section className="text-white min-h-[82vh] relative py-10">
         <div class="absolute top-0 z-[-2] h-[100%] w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]"></div>
 
         <div className=" container box-border  w-[95%] mt-2.5 m-auto  ">
@@ -245,7 +245,7 @@ const Manager = () => {
                   Your Account Details
                 </h2>
                 <div className="container">
-                  <table className="w-full ">
+                  <table className="w-full  items-stretch">
                     <thead className="border">
                       <tr className="text-center py-4  ">
                         <th className="pl-2">Site</th>
@@ -258,10 +258,7 @@ const Manager = () => {
                     <tbody className=" border-collapse">
                       {data.map((item, index) => {
                         return (
-                          <tr
-                            key={index}
-                            className="text-center border items-stretch py-4"
-                          >
+                          <tr key={index} className="text-center border border-2">
                             <td className="py-2 flex flex-col gap-5 ">
                               <a href={item.siteName} target="_blank">
                                 {item.siteName}
@@ -274,11 +271,11 @@ const Manager = () => {
                               ></FontAwesomeIcon>
                             </td>
 
-                            <td className="py-2  ">
+                            <td className="py-2 ">
                               <div className="flex flex-col gap-5">
                                 <span> {item.userName}</span>
                                 <FontAwesomeIcon
-                                  onClick={() => copyData(item.userName )}
+                                  onClick={() => copyData(item.userName)}
                                   icon={faClone}
                                   className="pl-3 cursor-pointer"
                                 ></FontAwesomeIcon>
@@ -312,7 +309,8 @@ const Manager = () => {
                                       progress: undefined,
                                       theme: "dark",
                                     });
-                                }}}
+                                  }
+                                }}
                                 className="cursor-pointer"
                               >
                                 <lord-icon
