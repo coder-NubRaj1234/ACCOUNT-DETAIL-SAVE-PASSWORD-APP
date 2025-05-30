@@ -118,6 +118,7 @@ const Manager = () => {
 
   const editAccount = (id) => {
   
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setMessage("Edit");
     setEditBtn(false);
     setBtnVal("Edit");
