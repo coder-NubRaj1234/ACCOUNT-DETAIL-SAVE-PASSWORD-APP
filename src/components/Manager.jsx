@@ -23,12 +23,7 @@ const Manager = () => {
   const [data, setData] = useState([]);
   const [eyeIcon, setEyeIcon] = useState(faEye);
 
-
-
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
- 
-  
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -67,8 +62,6 @@ const Manager = () => {
       });
       setBtnVal("Add");
 
-     
-
       toast(`✅   ${message} your account !`, {
         position: "top-right",
         autoClose: 5000,
@@ -79,7 +72,7 @@ const Manager = () => {
         progress: undefined,
         theme: "dark",
       });
-      setMessage("Save")
+      setMessage("Save");
     } else {
       toast("🚨 Fill all input fields !", {
         position: "top-right",
@@ -95,30 +88,29 @@ const Manager = () => {
   };
 
   const deletAccount = (id) => {
-    console.log("This is delet item id", id);
-
-    setData(data.filter((item) => item.id !== id));
-    localStorage.setItem(
-      "passwordManagerData",
-      JSON.stringify(data.filter((item) => item.id !== id))
-    );
-
-    toast("❌  Deleted  your account !", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  };
+if(confirm("Your are sure so delete account")){
   
+  setData(data.filter((item) => item.id !== id));
+  localStorage.setItem(
+    "passwordManagerData",
+    JSON.stringify(data.filter((item) => item.id !== id))
+  );
+
+  toast("❌  Deleted  your account !", {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
+}
+  };
 
   const editAccount = (id) => {
-  
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" }); //It not working....
     setMessage("Edit");
     setEditBtn(false);
     setBtnVal("Edit");
@@ -142,7 +134,6 @@ const Manager = () => {
       setEyeIcon(faEyeSlash);
     }
   };
-
 
   //here the data will copy it's icons..
   const copyData = (text) => {
@@ -298,7 +289,11 @@ const Manager = () => {
                               <tr key={index} className="border ">
                                 <td className="py-2  break-words whitespace-normal break-words border">
                                   <div className="flex flex-col gap-5">
-                                    <a href={item.siteName} target="_blank" className="underline">
+                                    <a
+                                      href={item.siteName}
+                                      target="_blank"
+                                      className="underline"
+                                    >
                                       {item.siteName}
                                     </a>
 
